@@ -1,0 +1,81 @@
+[1mdiff --git a/src/main/java/com/empresas/controlador/EmpresaControlador.java b/src/main/java/com/empresas/controlador/EmpresaControlador.java[m
+[1mindex 5393dcd..ab56396 100644[m
+[1m--- a/src/main/java/com/empresas/controlador/EmpresaControlador.java[m
+[1m+++ b/src/main/java/com/empresas/controlador/EmpresaControlador.java[m
+[36m@@ -3,25 +3,38 @@[m [mpackage com.empresas.controlador;[m
+ import java.util.List;[m
+ [m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.boot.context.config.ConfigDataResourceNotFoundException;[m
+[32m+[m[32mimport org.springframework.http.ResponseEntity;[m
+ import org.springframework.web.bind.annotation.CrossOrigin;[m
+ import org.springframework.web.bind.annotation.GetMapping;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.PathVariable;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.PostMapping;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.RequestBody;[m
+ import org.springframework.web.bind.annotation.RequestMapping;[m
+ import org.springframework.web.bind.annotation.RestController;[m
+ [m
+[32m+[m[32mimport com.empresas.excepciones.ResourceNotFoundException;[m
+ import com.empresas.modelo.Empresa;[m
+ import com.empresas.repositorio.EmpresaRepositorio;[m
+ [m
+ @RestController[m
+[31m-@RequestMapping("/empresas")[m
+[32m+[m[32m@RequestMapping("")[m
+ @CrossOrigin(origins = "http://localhost:4200")[m
+ public class EmpresaControlador {[m
+ 	[m
+ 	@Autowired[m
+ 	private EmpresaRepositorio repositorio;[m
+ 	[m
+[31m-	@GetMapping("")[m
+[32m+[m[41m	[m
+[32m+[m	[32m//Método para listar las empresas[m
+[32m+[m	[32m@GetMapping("/empresas")[m
+ 	public List<Empresa> listarTodasLasEmpresas(){[m
+ 		return repositorio.findAll();[m
+ 	}[m
+ 	[m
+[32m+[m	[32m//Método para guardar empresas[m
+[32m+[m	[32m@PostMapping("/empresas")[m
+[32m+[m	[32mpublic Empresa guardarEmpresa(@RequestBody Empresa empresa) {[m
+[32m+[m		[32mreturn repositorio.save(empresa);[m
+[32m+[m	[32m}[m
+ }[m
+[1mdiff --git a/src/main/java/com/empresas/modelo/Empresa.java b/src/main/java/com/empresas/modelo/Empresa.java[m
+[1mindex f944e95..2711f76 100644[m
+[1m--- a/src/main/java/com/empresas/modelo/Empresa.java[m
+[1m+++ b/src/main/java/com/empresas/modelo/Empresa.java[m
+[36m@@ -13,7 +13,7 @@[m [mpublic class Empresa {[m
+ [m
+ 	@Id[m
+ 	@GeneratedValue(strategy = GenerationType.IDENTITY)[m
+[31m-	private int id;[m
+[32m+[m	[32mprivate Long id;[m
+ 	[m
+ 	@Column(name = "codigo", length = 3, nullable = false, unique = true)[m
+ 	private int codigo;[m
+[36m@@ -31,7 +31,7 @@[m [mpublic class Empresa {[m
+ 		[m
+ 	}[m
+ [m
+[31m-	public Empresa(int id, String nombre, int codigo, String direccion, int cp) {[m
+[32m+[m	[32mpublic Empresa(Long id, String nombre, int codigo, String direccion, int cp) {[m
+ 		super();[m
+ 		this.id = id;[m
+ 		this.nombre = nombre;[m
+[36m@@ -40,11 +40,11 @@[m [mpublic class Empresa {[m
+ 		this.cp = cp;[m
+ 	}[m
+ [m
+[31m-	public int getId() {[m
+[32m+[m	[32mpublic Long getId() {[m
+ 		return id;[m
+ 	}[m
+ [m
+[31m-	public void setId(int id) {[m
+[32m+[m	[32mpublic void setId(Long id) {[m
+ 		this.id = id;[m
+ 	}[m
+ [m

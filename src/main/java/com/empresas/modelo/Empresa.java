@@ -13,7 +13,7 @@ public class Empresa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	@Column(name = "codigo", length = 3, nullable = false, unique = true)
 	private int codigo;
@@ -31,7 +31,7 @@ public class Empresa {
 		
 	}
 
-	public Empresa(int id, String nombre, int codigo, String direccion, int cp) {
+	public Empresa(Long id, String nombre, int codigo, String direccion, int cp) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -40,11 +40,11 @@ public class Empresa {
 		this.cp = cp;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
