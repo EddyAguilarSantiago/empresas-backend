@@ -1,10 +1,14 @@
 package com.empresas.modelo;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,17 +27,22 @@ public class Usuario {
 
 	@Column(name = "email", length=50, nullable=false, unique=true)
 	private String email;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "id_empresa", nullable=false)
+	private Empresa empresa;
+	
 	public Usuario() {
 		
 	}
 
-	public Usuario(Long id, int codigo, String nombre, String email) {
+	public Usuario(Long id, int codigo, String nombre, String email, Empresa empresa) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.email = email;
+		this.empresa = empresa;
 	}
 
 	public Long getId() {
@@ -66,6 +75,14 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Empresa getEempresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 	
 	
