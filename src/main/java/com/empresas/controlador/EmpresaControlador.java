@@ -37,4 +37,12 @@ public class EmpresaControlador {
 	public Empresa guardarEmpresa(@RequestBody Empresa empresa) {
 		return repositorio.save(empresa);
 	}
+	
+	//Método para buscar una empresa por su ID
+	@GetMapping("/empresas/{id}")
+	public ResponseEntity<Empresa> obtenerEmpresaPorId(@PathVariable Long id){
+		Empresa empresa = repositorio.findById(id)
+						  .orElseThrow(() -> new ResourceNotFoundException("No existe la empresa con ID: " + id)); //Si no existe se manda este mensaje
+		return ResponseEntity.ok(empresa);
+	}
 }
