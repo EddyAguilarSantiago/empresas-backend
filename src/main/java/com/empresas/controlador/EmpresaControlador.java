@@ -1,11 +1,14 @@
 package com.empresas.controlador;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,5 +63,19 @@ public class EmpresaControlador {
 		Empresa empresaActualizada = repositorio.save(empresa);
 		
 		return ResponseEntity.ok(empresaActualizada);
+	}
+	
+	//Método para eliminar una empresa por su ID
+	@DeleteMapping("/empresas/{id}")
+	public ResponseEntity<Map<String, Boolean>> eliminarEmpresa(@PathVariable Long id){
+		Empresa empresa = repositorio.findById(id)
+				  .orElseThrow(() -> new ResourceNotFoundException("No existe la empresa con ID: " + id)); //Si no existe se manda este mensaje
+		
+		repositorio.delete(empresa);
+		
+		Map<String, Boolean> respuesta = new HashMap<>();
+		respuesta.put("eliminar", Boolean.TRUE);
+		
+		return ResponseEntity.ok(respuesta);
 	}
 }
