@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +45,20 @@ public class EmpresaControlador {
 		Empresa empresa = repositorio.findById(id)
 						  .orElseThrow(() -> new ResourceNotFoundException("No existe la empresa con ID: " + id)); //Si no existe se manda este mensaje
 		return ResponseEntity.ok(empresa);
+	}
+	
+	//Método para actualizar empresa por su ID
+	@PutMapping("/empresas/{id}")
+	public ResponseEntity<Empresa> actualizarEmpresa(@PathVariable Long id, @RequestBody Empresa detallesEmpresa){
+		Empresa empresa = repositorio.findById(id)
+				  .orElseThrow(() -> new ResourceNotFoundException("No existe la empresa con ID: " + id)); //Si no existe se manda este mensaje
+		empresa.setCodigo(detallesEmpresa.getCodigo());
+		empresa.setNombre(detallesEmpresa.getNombre());
+		empresa.setDireccion(detallesEmpresa.getDireccion());
+		empresa.setCp(detallesEmpresa.getCp());
+		
+		Empresa empresaActualizada = repositorio.save(empresa);
+		
+		return ResponseEntity.ok(empresaActualizada);
 	}
 }
