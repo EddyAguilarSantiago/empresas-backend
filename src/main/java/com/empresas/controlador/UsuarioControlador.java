@@ -1,10 +1,13 @@
 package com.empresas.controlador;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +61,19 @@ public class UsuarioControlador {
 		Usuario usuarioActualizado = repositorio.save(usuario);
 		
 		return ResponseEntity.ok(usuarioActualizado);
+	}
+	
+	//Método para eliminar usuario por su ID
+	@DeleteMapping("/usuarios/{id}")
+	public ResponseEntity<Map<String, Boolean>> eliminarUsuario(@PathVariable Long id){
+		Usuario usuario = repositorio.findById(id)
+				  .orElseThrow(() -> new ResourceNotFoundException("No existe el usuario con ID: + id")); //Si no existe se manda este mensaje 
+
+		repositorio.delete(usuario);
+		
+		Map<String, Boolean> respuesta = new HashMap<>();
+		respuesta.put("eliminar", Boolean.TRUE);
+		
+		return ResponseEntity.ok(respuesta);
 	}
 }
