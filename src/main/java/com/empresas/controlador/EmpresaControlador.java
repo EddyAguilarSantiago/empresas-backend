@@ -28,7 +28,6 @@ public class EmpresaControlador {
 	@Autowired
 	private EmpresaRepositorio repositorio;
 	
-	
 	//Método para listar las empresas
 	@GetMapping("/empresas")
 	public List<Empresa> listarTodasLasEmpresas(){
